@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'daphne',
+    'channels',
     'chat',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -99,9 +100,9 @@ WSGI_APPLICATION = 'mental_social.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Menatl_Health',
+        'NAME': 'Mental_Health_DB',
         'USER': 'postgres',
-        'PASSWORD': '1234',
+        'PASSWORD': '01124120933',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -162,3 +163,10 @@ CHANNEL_LAYERS = {
         },
     },
 }
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'commercedjango@gmail.com'
+EMAIL_HOST_PASSWORD = 'audsnslecnkqnkvy'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
