@@ -1,16 +1,16 @@
 from django.db import models
 from datetime import date, datetime
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
-from django.core.validators import MinLengthValidator
 
+
+    
 
 class Person(models.Model):
     MALE = 'M'
     FEMALE = 'F'
     OTHER = 'O'
     GENDER_CHOICES = [
-        (MALE, 'Male'),
+        (MALE, 'Male'), 
         (FEMALE, 'Female'),
         (OTHER, 'Other'),
     ]
@@ -22,10 +22,12 @@ class Person(models.Model):
     
     )
     
+
+    
     phone = models.CharField(max_length=50, default="phone")
     birth_date = models.DateField(default=datetime.now)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES , default=MALE)
-    user_type = models.CharField(default="user")
+    user_type = models.CharField(default="user", max_length=255)
     
 
     
@@ -67,7 +69,7 @@ class Doctor(models.Model):
         related_name='doctor' # custom related name
         
     )
- 
+    
     certificate = models.ImageField(upload_to='certificates/', null=True)
     specialty = models.CharField(max_length=50, choices=SPECIALTY_CHOICES , default='Dermatologist')
     office_location = models.CharField(max_length=100, null=True, blank=True,default="office")
@@ -75,7 +77,7 @@ class Doctor(models.Model):
     phone = models.CharField(max_length=50, default="phone")
     birth_date = models.DateField(default=datetime.now)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES , default=MALE)
-    user_type = models.CharField(default="doctor")
+    user_type = models.CharField(default="doctor" , max_length=255)
 
     
     @property
@@ -89,4 +91,11 @@ class Doctor(models.Model):
         return f'{self.user.first_name} {self.user.last_name}'
  
 
-    
+class Reservation(models.Model):
+        person = models.ForeignKey(Person , related_name='person_reservations' , on_delete=models.CASCADE)
+        doctor = models.ForeignKey(Person , related_name='doctor_reservations' , on_delete=models.CASCADE)  
+        date = models.DateTimeField()
+        class Meta:
+            unique_together = ('doctor', 'date')
+        def __str__(self):
+            return f'{self.person} reserved with {self.doctor} on {self.date}'
